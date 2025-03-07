@@ -1,0 +1,17 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: finncorp-server
+    environment:
+      - TS_AUTHKEY=[your authkey]
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - ./state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun # Explicitly map the TUN device
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: host
+    restart: unless-stopped
